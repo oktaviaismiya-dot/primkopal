@@ -24,14 +24,25 @@ class DataAnggotaController extends Controller
             'username' => 'required|string|max:100',
             'password' => 'required|string|max:100',
             'role_id' => 'required|exists:roles,id',
-            'pangkat_id' => 'required|exists:pangkats,id',
+            'pangkat'  => 'required|string|max:100',
+            'maksimal_pinjaman' => 'nullable|integer|min:0',
+            // 'pangkat_id' => 'required|exists:pangkats,id',
         ]);
+
+        // Cek pangkat berdasarkan nama
+        $pangkat = Pangkat::where('nama', $request->pangkat)->first();
+        if (!$pangkat) {
+            Pangkat::create([
+                'nama' => $request->pangkat,
+                'maksimal_pinjaman' => $request->maksimal_pinjaman,
+            ]);
+        }
 
         User::create([
             'username' => $request->username,
             'password' => bcrypt($request->password),
             'role_id' => $request->role_id,
-            'pangkat_id' => $request->pangkat_id,
+            'pangkat_id' => $pangkat->id,
         ]);
 
         return redirect()->back()->with('success', 'Anggota berhasil ditambahkan');
@@ -40,7 +51,7 @@ class DataAnggotaController extends Controller
     public function show($id)
     {
         $user = User::with(['role', 'pangkat'])->findOrFail($id);
-         return response()->json($user);
+        return response()->json($user);
     }
 
     public function update(Request $request, $id)

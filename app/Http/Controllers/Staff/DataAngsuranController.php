@@ -10,10 +10,14 @@ use App\Http\Controllers\Controller;
 
 class DataAngsuranController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $formulirs = FormulirPengajuan::with('user')->get();
-        $angsuranList = Angsuran::with('formulirPengajuan.user')->get();
+        $angsuranList = Angsuran::with('formulirPengajuan.user')
+        ->when($request->month, function($query) use ($request) {
+            return $query->whereMonth('tanggal', $request->month);
+        })
+        ->get();
 
         return view('pages.staff.data-angsuran.index', compact('angsuranList', 'formulirs'));
     }

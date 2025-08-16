@@ -10,9 +10,14 @@ use App\Http\Controllers\Controller;
 
 class DataSimpananController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $simpanans = Simpanan::with(['user', 'jenisSimpanan'])->get();
+        $simpanans = Simpanan::with(['user', 'jenisSimpanan'])->when($request->month, function($query) use ($request) {
+            return $query->whereMonth('tanggal', $request->month);
+        })
+        ->when($request->jenis_simpanan_id, function($query) use ($request) {
+            return $query->where('jenis_simpanan_id', $request->jenis_simpanan_id);
+        })->get();
         $users = User::all();
         $jenisSimpanans = JenisSimpanan::all();
         return view('pages.staff.data-simpanan.index', compact('simpanans', 'users', 'jenisSimpanans'));

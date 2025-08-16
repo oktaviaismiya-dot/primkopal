@@ -16,13 +16,14 @@
 
                 {{-- Data Jabatan / Pangkat --}}
                 <div class="form-group">
-                    <label for="jabatan">Pangkat</label>
-                    <select id="jabatan" name="jabatan" required>
-                        <option value="" selected disabled>Pilih pangkat</option>
-                        <option value="tamtama">Tamtama - Maks Rp 10.000.000</option>
-                        <option value="bintara">Bintara - Maks Rp 15.000.000</option>
-                        <option value="perwira">Perwira - Maks Rp 20.000.000</option>
-                        <option value="letkol">Letkol - Maks Rp 25.000.000</option>
+                    <label for="pangkat_id">Pangkat</label>
+                    <select id="pangkat_id" name="pangkat_id" required>
+                        <option value="" selected disabled>-- Pilih Pangkat --</option>
+                        @foreach ($pangkat as $pangkat)
+                            <option value="{{ $pangkat->id }}">
+                                {{ $pangkat->nama }} - Maks Rp {{ number_format($pangkat->maksimal_pinjaman, 0, ',', '.') }}
+                            </option>
+                        @endforeach
                     </select>
                 </div>
 
@@ -62,9 +63,7 @@
         </div>
 
         {{-- INFO PENGAJU + INFORMASI PINJAMAN --}}
-        <div class="card info-card"
-
-            <hr style="margin: 20px 0; border-color: #ddd;">
+        <div class="card info-card" <hr style="margin: 20px 0; border-color: #ddd;">
 
             <h4>Informasi Pinjaman</h4>
             <ul class="info-list">
@@ -188,7 +187,7 @@
         }
 
         .info-list li:first-child {
-        margin-top: 10px;
+            margin-top: 10px;
         }
     </style>
 @endsection

@@ -1,4 +1,4 @@
-<header class="topbar">
+<header class="topbar" style="display: flex; justify-content: flex-end; align-items: center;">
     <div class="profile-container">
         <i class="ph ph-user-circle profile-icon" id="profileIcon"></i>
         <div class="dropdown-menu" id="dropdownMenu">

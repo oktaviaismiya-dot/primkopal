@@ -10,8 +10,8 @@
             <i class="ph ph-users"></i>
             <p>Nasabah</p>
         </div>
-        <span>120</span>
-        <small class="trend up">+5 Hari Ini</small>
+        <span>{{ $nasabah }}</span>
+        {{-- <small class="trend up">+5 Hari Ini</small> --}}
     </div>
 
     <div class="card">
@@ -19,8 +19,8 @@
             <i class="ph ph-bank"></i>
             <p>Simpanan</p>
         </div>
-        <span>Rp. 20.000.000</span> <br>
-        <small class="trend up">+Rp. 1.500.000</small>
+        <span>Rp. {{ number_format($simpanan, 0, ',', '.') }}</span> <br>
+        {{-- <small class="trend up">+Rp. 1.500.000</small> --}}
     </div>
 
     <div class="card">
@@ -28,11 +28,11 @@
             <i class="ph ph-wallet"></i>
             <p>Pinjaman</p>
         </div>
-        <span>Rp. 46.500.000</span> <br>
-        <small class="trend up">+Rp. 2.000.000</small>
+        <span>Rp. {{ number_format($pinjaman, 0, ',', '.') }}</span> <br>
+        {{-- <small class="trend up">+Rp. 2.000.000</small> --}}
     </div>
 
-     
+
     <!-- <div class="card">
         <div class="card-title">
             <i class="ph ph-chart-line-up"></i>
@@ -47,18 +47,18 @@
             <i class="ph ph-credit-card"></i>
             <p>Total Angsuran</p>
         </div>
-        <span>Rp. 12.750.000</span> <br>
-        <small class="trend up">+Rp. 750.000</small>
+        <span>Rp. {{ number_format($angsuran, 0, ',', '.') }}</span> <br>
+        {{-- <small class="trend up">+Rp. 750.000</small> --}}
     </div>
 
-    <div class="card">
+    {{-- <div class="card">
         <div class="card-title">
             <i class="ph ph-wallet"></i>
             <p>Saldo</p>
         </div>
         <span>Rp. 28.450.000</span> <br>
         <small class="trend up">+Rp. 1.000.000</small>
-    </div>
+    </div> --}}
 </div>
 
 
@@ -123,12 +123,12 @@
             </div>
             <p>Sun</p>
         </div>
-    </div> 
+    </div>
 
     <div class="chart-legend">
         <span><span class="legend-box segment-1"></span> Simpanan</span>
         <span><span class="legend-box segment-2"></span> Pinjaman</span>
         <span><span class="legend-box segment-3"></span> Angsuran</span>
     </div>
-</div> --> 
+</div> -->
 @endsection

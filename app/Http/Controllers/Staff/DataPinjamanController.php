@@ -11,9 +11,13 @@ use App\Http\Controllers\Controller;
 
 class DataPinjamanController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $pengajuans = FormulirPengajuan::with('user')->latest()->paginate(10);
+        $pengajuans = FormulirPengajuan::with('user')->when($request->month, function($query) use ($request) {
+            return $query->whereMonth('created_at', $request->month);
+        })
+        ->latest()
+        ->paginate(10);
         $users = User::all();
         return view('pages.staff.data-pinjaman.index', compact('pengajuans', 'users'));
     }

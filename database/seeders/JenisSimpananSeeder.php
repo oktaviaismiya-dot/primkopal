@@ -14,9 +14,9 @@ class JenisSimpananSeeder extends Seeder
     public function run(): void
     {
         DB::table('jenis_simpanans')->insert([
-            ['nama' => 'Simpanan Pokok'],
-            ['nama' => 'Simpanan Wajib'],
-            ['nama' => 'Simpanan Sukarela'],
+            ['nama' => 'Simpanan Pokok', 'created_at' => now(), 'updated_at' => now()],
+            ['nama' => 'Simpanan Wajib', 'created_at' => now(), 'updated_at' => now()],
+            ['nama' => 'Simpanan Sukarela', 'created_at' => now(), 'updated_at' => now()],
         ]);
     }
 }

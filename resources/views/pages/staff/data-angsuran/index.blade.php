@@ -9,6 +9,20 @@
 
     <div class="table-wrapper">
         <div class="table-actions">
+            <div class="filter-container">
+                <form action="{{ route('data-angsuran.index') }}" method="GET" class="filter-form">
+                    <label for="month">Filter Bulan:</label>
+                    <select name="month" id="month" onchange="this.form.submit()">
+                        <option value="">Semua Bulan</option>
+                        @for ($i = 1; $i <= 12; $i++)
+                            <option value="{{ $i }}" {{ request('month') == $i ? 'selected' : '' }}>
+                                {{ DateTime::createFromFormat('!m', $i)->format('F') }}
+                            </option>
+                        @endfor
+                    </select>
+                </form>
+                <a href="{{ route('data-angsuran.index') }}" class="btn-reset">Reset Filter</a>
+            </div>
             <button class="btn-add" onclick="openModal('addModal')">+ Tambah</button>
         </div>
 
@@ -129,6 +143,52 @@
     </div>
 
     <style>
+        .filter-container {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            margin-right: auto;
+        }
+
+        .filter-form {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .filter-form label {
+            margin: 0;
+            font-weight: normal;
+        }
+
+        .btn-reset {
+            padding: 6px 12px;
+            background-color: #6c757d;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .btn-reset:hover {
+            background-color: #5a6268;
+        }
+
+        .table-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            gap: 10px;
+        }
+
+        .table-actions select {
+            padding: 6px 10px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            font-size: 14px;
+        }
+
         .modal {
             display: none;
             position: fixed;
