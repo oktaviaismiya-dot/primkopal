@@ -20,13 +20,15 @@ class DashboardKepalaKoperasiController extends Controller
         return view('pages.kepala-koperasi.dashboard-kepala', compact('pengajuans', 'jumlahPengajuanBaru', 'jumlahPengajuanTerverifikasi'));
     }
 
-    public function validasi($id)
+    public function validasi(Request $request, $id)
     {
         $pengajuan = FormulirPengajuan::findOrFail($id);
-        $pengajuan->status = 'disetujui'; // atau 'diproses' jika ingin tahapan tengah
+        $status = $request->input('status', 'disetujui');
+
+        $pengajuan->status = $status; // atau 'diproses' jika ingin tahapan tengah
         $pengajuan->save();
 
-        return redirect()->back()->with('success', 'Pengajuan berhasil divalidasi.');
+        return redirect()->back()->with('success', 'Pengajuan berhasil' . $status . '.');
     }
 
     public function indexPinjaman()

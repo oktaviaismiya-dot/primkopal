@@ -52,17 +52,24 @@
                         </td>
                         <td>
                             @if ($item->status == 'pending')
-                                <span class="badge bg-warning text-dark" style="font-size: 0.75rem;">Pending</span>
+                                <span class="badge badge-pending" style="font-size: 0.75rem; color:#fff;">Pending</span>
                             @elseif ($item->status == 'disetujui')
-                                <span class="badge bg-success text-white" style="font-size: 0.75rem;">Disetujui</span>
+                                <span class="badge badge-disetujui" style="font-size: 0.75rem; color:#fff;">Disetujui</span>
                             @elseif ($item->status == 'diproses')
-                                <span class="badge bg-primary text-white" style="font-size: 0.75rem;">Diproses</span>
+                                <span class="badge badge-ditolak" style="font-size: 0.75rem; color:#fff;">Ditolak</span>
                             @endif
                         </td>
                         <td>
-                            <form action="{{ route('pengajuan.validasi', $item->id) }}" method="POST">
+                            <form action="{{ route('pengajuan.validasi', $item->id) }}" method="POST"
+                                style="display: inline-block">
                                 @csrf
-                                <button type="submit" class="btn btn-success btn-sm">Validasi</button>
+                                <button type="submit" class="btn btn-success btn-sm"
+                                    style="margin-top: 0px;">Validasi</button>
+                            </form>
+                            <form action="{{ route('pengajuan.validasi', $item->id) }}" method="POST"
+                                style="display: inline-block; margin-left: 5px;">
+                                @csrf
+                                <button type="submit" class="btn btn-danger btn-sm" style="margin-top: 0px;">Tolak</button>
                             </form>
                         </td>
                     </tr>
@@ -72,6 +79,30 @@
     </div>
 
     <style>
+        .badge {
+            display: inline-block;
+            padding: 6px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            width: fit-content;
+        }
+
+        .badge-pending {
+            background: #ffc107;
+            color: #000;
+        }
+
+        .badge-disetujui {
+            background: #28a745;
+            color: #fff;
+        }
+
+        .badge-ditolak {
+            background: #dc3545;
+            color: #fff;
+        }
+
         .dashboard-heading {
             margin-bottom: 20px;
             font-size: 24px;
@@ -169,6 +200,15 @@
 
         .btn-success:hover {
             background-color: #218838;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            color: #fff;
+        }
+
+        .btn-danger:hover {
+            background-color: #c82333;
         }
     </style>
 @endsection

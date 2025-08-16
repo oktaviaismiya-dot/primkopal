@@ -48,7 +48,9 @@
                         <td>{{ $pengajuan->created_at->format('d F Y') ?? '-' }}</td>
                         <td>Rp {{ number_format($data->jumlah_pinjaman ?? 0, 0, ',', '.') }}</td>
                         <td>{{ $data->tenor ?? '-' }} bulan</td>
-                        <td>{{ ucfirst($pengajuan->status) }}</td>
+                        <td><span class="badge badge-{{ $pengajuan->status }}">
+                                {{ ucfirst($pengajuan->status) }}
+                            </span></td>
                         <td>{{ $data->bunga }}</td>
                         <td>
                             @if (!empty($data->slip_gaji_path))
@@ -339,6 +341,39 @@
 
         .close:hover {
             color: #000;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            text-transform: capitalize;
+        }
+
+        .badge-pending {
+            background-color: #ffc107;
+            /* kuning */
+            color: #000;
+        }
+
+        .badge-disetujui {
+            background-color: #28a745;
+            /* hijau */
+            color: #fff;
+        }
+
+        .badge-diproses {
+            background-color: #007bff;
+            /* biru */
+            color: #fff;
+        }
+
+        .badge-ditolak {
+            background-color: #dc3545;
+            /* merah */
+            color: #fff;
         }
     </style>
 
