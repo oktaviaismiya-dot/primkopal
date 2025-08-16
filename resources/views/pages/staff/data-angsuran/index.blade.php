@@ -22,6 +22,10 @@
                     </select>
                 </form>
                 <a href="{{ route('data-angsuran.index') }}" class="btn-reset">Reset Filter</a>
+                <div style="margin-top: 0px;">
+                    <a href="{{ route('data-angsuran.export', request()->all()) }}" class="btn-reset"
+                        style="background:green; font-size:0.8rem;">Export Excel</a>
+                </div>
             </div>
             <button class="btn-add" onclick="openModal('addModal')">+ Tambah</button>
         </div>

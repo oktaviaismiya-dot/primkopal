@@ -41,7 +41,12 @@
                     </select>
                 </div>
                 <div style="margin-top: 28px;">
-                    <a href="{{ route('data-simpanan.index') }}" class="btn-reset" style="font-size: 0.8rem;">Reset Filter</a>
+                    <a href="{{ route('data-simpanan.index') }}" class="btn-reset" style="font-size: 0.8rem;">Reset
+                        Filter</a>
+                </div>
+                <div style="margin-top: 28px;">
+                    <a href="{{ route('data-simpanan.export', request()->all()) }}" class="btn-reset"
+                        style="background:green; font-size:0.8rem;">Export Excel</a>
                 </div>
             </form>
             <button class="btn-add" onclick="openModal('addModal')">+ Tambah</button>

@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Staff;
 
+use App\Exports\Staff\StaffAngsuranExport;
 use App\Models\Angsuran;
 use App\Models\Pinjaman;
 use Illuminate\Http\Request;
 use App\Models\FormulirPengajuan;
 use App\Http\Controllers\Controller;
+use Maatwebsite\Excel\Facades\Excel;
 
 class DataAngsuranController extends Controller
 {
@@ -90,5 +92,17 @@ class DataAngsuranController extends Controller
         $angsuran->delete();
 
         return redirect()->back()->with('success', 'Data angsuran berhasil dihapus.');
+    }
+
+    public function export(Request $request)
+    {
+        $month = $request->month;
+
+        $fileName = 'data_angsuran.xlsx';
+        if ($month) {
+            $fileName = 'data_angsuran_' . now()->format('Y_m') . '_' . $month . '.xlsx';
+        }
+
+        return Excel::download(new StaffAngsuranExport($month), $fileName);
     }
 }

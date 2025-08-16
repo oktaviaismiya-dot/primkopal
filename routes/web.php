@@ -39,7 +39,9 @@ Route::middleware('auth')->group(function () {
 Route::resource('data-anggota', DataAnggotaController::class);
 
 // Route::get('/data-simpanan', [DataSimpananController::class, 'index'])->name('data-simpanan.index');
+Route::get('/data-simpanan/export', [DataSimpananController::class, 'export'])->name('data-simpanan.export');
 Route::resource('data-simpanan', DataSimpananController::class);
+
 
 
 // Route::get('/data-pinjaman', [DataPinjamanController::class, 'index'])->name('data-pinjaman.index');
@@ -50,6 +52,7 @@ Route::post('/data-angsuran', [DataAngsuranController::class, 'store'])->name('d
 Route::get('/data-angsuran/{id}', [DataAngsuranController::class, 'show'])->name('data-angsuran.show');
 Route::put('/data-angsuran/{id}', [DataAngsuranController::class, 'update'])->name('data-angsuran.update');
 Route::delete('/data-angsuran/{id}', [DataAngsuranController::class, 'destroy'])->name('data-angsuran.destroy');
+Route::get('/data-angsuran-staff/export', [DataAngsuranController::class, 'export'])->name('data-angsuran.export');
 
 
 Route::get('/laporan-keuangan', [LaporanKeuanganController::class, 'index'])->name('laporan-keuangan.index');
