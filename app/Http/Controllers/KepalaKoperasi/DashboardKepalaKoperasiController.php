@@ -17,7 +17,8 @@ class DashboardKepalaKoperasiController extends Controller
         $pengajuans = FormulirPengajuan::with('user')->get();
         $jumlahPengajuanBaru = $pengajuans->where('status', 'pending')->count();
         $jumlahPengajuanTerverifikasi = $pengajuans->where('status', 'disetujui')->count();
-        return view('pages.kepala-koperasi.dashboard-kepala', compact('pengajuans', 'jumlahPengajuanBaru', 'jumlahPengajuanTerverifikasi'));
+        $jumlahPengajuanDitolak = $pengajuans->where('status', 'ditolak')->count();
+        return view('pages.kepala-koperasi.dashboard-kepala', compact('pengajuans', 'jumlahPengajuanBaru', 'jumlahPengajuanTerverifikasi', 'jumlahPengajuanDitolak'));
     }
 
     public function validasi(Request $request, $id)

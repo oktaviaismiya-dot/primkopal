@@ -23,6 +23,15 @@
             <span>{{ $jumlahPengajuanTerverifikasi }}</span>
             <small class="trend up">Total disetujui</small>
         </div>
+
+        <div class="card">
+            <div class="card-title">
+                <i class="ph ph-x-circle"></i>
+                <p>Ditolak</p>
+            </div>
+            <span>{{ $jumlahPengajuanDitolak }}</span>
+            <small class="trend up">Total ditolak</small>
+        </div>
     </div>
 
     <div class="card card-table">
@@ -55,22 +64,43 @@
                                 <span class="badge badge-pending" style="font-size: 0.75rem; color:#fff;">Pending</span>
                             @elseif ($item->status == 'disetujui')
                                 <span class="badge badge-disetujui" style="font-size: 0.75rem; color:#fff;">Disetujui</span>
-                            @elseif ($item->status == 'diproses')
+                            @elseif ($item->status == 'ditolak')
                                 <span class="badge badge-ditolak" style="font-size: 0.75rem; color:#fff;">Ditolak</span>
                             @endif
                         </td>
                         <td>
-                            <form action="{{ route('pengajuan.validasi', $item->id) }}" method="POST"
-                                style="display: inline-block">
-                                @csrf
-                                <button type="submit" class="btn btn-success btn-sm"
-                                    style="margin-top: 0px;">Validasi</button>
-                            </form>
-                            <form action="{{ route('pengajuan.validasi', $item->id) }}" method="POST"
-                                style="display: inline-block; margin-left: 5px;">
-                                @csrf
-                                <button type="submit" class="btn btn-danger btn-sm" style="margin-top: 0px;">Tolak</button>
-                            </form>
+                            @if ($item->status == 'dipending')
+                                <form action="{{ route('pengajuan.validasi', $item->id) }}" method="POST"
+                                    style="display: inline-block">
+                                    @csrf
+                                    <input type="hidden" name="status" value="disetujui">
+                                    <button type="submit" class="btn btn-success btn-sm"
+                                        style="margin-top: 0px;">Validasi</button>
+                                </form>
+                                <form action="{{ route('pengajuan.validasi', $item->id) }}" method="POST"
+                                    style="display: inline-block; margin-left: 5px;">
+                                    @csrf
+                                    <input type="hidden" name="status" value="ditolak">
+                                    <button type="submit" class="btn btn-danger btn-sm"
+                                        style="margin-top: 0px;">Tolak</button>
+                                </form>
+                            @elseif ($item->status == 'disetujui')
+                                <form action="{{ route('pengajuan.validasi', $item->id) }}" method="POST"
+                                    style="display: inline-block; margin-left: 5px;">
+                                    @csrf
+                                    <input type="hidden" name="status" value="ditolak">
+                                    <button type="submit" class="btn btn-danger btn-sm"
+                                        style="margin-top: 0px;">Tolak</button>
+                                </form>
+                            @elseif ($item->status == 'ditolak')
+                                <form action="{{ route('pengajuan.validasi', $item->id) }}" method="POST"
+                                    style="display: inline-block; margin-left: 5px;">
+                                    @csrf
+                                    <input type="hidden" name="status" value="disetujui">
+                                    <button type="submit" class="btn btn-success btn-sm"
+                                        style="margin-top: 0px;">Validasi</button>
+                                </form>
+                            @endif
                         </td>
                     </tr>
                 @endforeach
