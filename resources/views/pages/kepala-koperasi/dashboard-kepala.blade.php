@@ -69,7 +69,7 @@
                             @endif
                         </td>
                         <td>
-                            @if ($item->status == 'dipending')
+                            @if ($item->status == 'pending')
                                 <form action="{{ route('pengajuan.validasi', $item->id) }}" method="POST"
                                     style="display: inline-block">
                                     @csrf
