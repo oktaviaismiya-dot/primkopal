@@ -49,7 +49,10 @@
                         style="background:green; font-size:0.8rem;">Export Excel</a>
                 </div>
             </form>
-            <button class="btn-add" onclick="openModal('addModal')">+ Tambah</button>
+            <div style="display: flex; gap: 10px;">
+                <button class="btn-add" onclick="openModal('importModal')" style="background-color: green;">Import Excel</button>
+                <button class="btn-add" onclick="openModal('addModal')">+ Tambah</button>
+            </div>
         </div>
         <table class="data-table">
             <thead>
@@ -154,6 +157,30 @@
         </table>
     </div>
 
+    <!-- Modal Import -->
+    <div class="modal" id="importModal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('importModal')">&times;</span>
+            <h3>Import Data Simpanan</h3>
+            <form action="{{ route('data-simpanan.import') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+
+                <div style="margin-bottom: 15px;">
+                    <label for="file"><strong>Pilih File Excel</strong></label>
+                    <input type="file" name="file" id="file" accept=".xlsx,.xls,.csv" required
+                        style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                </div>
+
+                <div style="text-align:center;">
+                    <button type="submit"
+                        style="padding: 8px 20px; color: white; background-color: seagreen; border: none;">Upload</button>
+                    <button type="button" onclick="closeModal('importModal')"
+                        style="padding: 8px 20px; color: white; background-color: darkgray; border: none;">Batal</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- Modal Tambah -->
     <div class="modal" id="addModal">
         <div class="modal-content">
@@ -179,8 +206,8 @@
 
                 <div style="margin-bottom: 10px;">
                     <label for="jumlah"><strong>Nominal</strong></label>
-                    <input type="number" name="jumlah" id="jumlah" placeholder="Jumlah Simpanan" style="width: 100%;"
-                        required>
+                    <input type="number" name="jumlah" id="jumlah" placeholder="Jumlah Simpanan"
+                        style="width: 100%;" required>
                 </div>
 
                 <div style="margin-bottom: 20px;">

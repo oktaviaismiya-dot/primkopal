@@ -91,4 +91,15 @@ class DataSimpananController extends Controller
 
         return Excel::download(new SimpananExport($month, $jenis), $fileName);
     }
+
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,csv,xls',
+        ]);
+
+        Excel::import(new \App\Imports\Staff\SimpananImport, $request->file('file'));
+
+        return redirect()->back()->with('success', 'Data simpanan berhasil diimport');
+    }
 }

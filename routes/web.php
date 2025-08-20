@@ -39,6 +39,7 @@ Route::middleware('auth')->group(function () {
 Route::resource('data-anggota', DataAnggotaController::class);
 
 // Route::get('/data-simpanan', [DataSimpananController::class, 'index'])->name('data-simpanan.index');
+Route::post('/simpanan/import', [DataSimpananController::class, 'import'])->name('data-simpanan.import');
 Route::get('/data-simpanan/export', [DataSimpananController::class, 'export'])->name('data-simpanan.export');
 Route::resource('data-simpanan', DataSimpananController::class);
 
