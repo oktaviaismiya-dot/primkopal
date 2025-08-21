@@ -37,11 +37,20 @@
                     <th>Status</th>
                     <th>Bunga</th>
                     <th>Slip Gaji</th>
+                    <th>Ansuran/Bulan</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($pengajuans as $key => $pengajuan)
-                    @php $data = json_decode($pengajuan->data_lengkap_json); @endphp
+                    @php
+                        $data = json_decode($pengajuan->data_lengkap_json);
+                        $jumlah = $data->jumlah_pinjaman;
+                        $bunga = (float) $data->bunga / 100;
+                        $tenor = (int) $data->tenor;
+                        $totalBunga = $jumlah * $bunga * $tenor;
+                        $totalBayar = $jumlah + $totalBunga;
+                        $angsuran = $totalBayar / $tenor;
+                    @endphp
                     <tr>
                         <td>{{ $key + 1 }}</td>
                         <td>{{ $pengajuan->user->username ?? '-' }}</td>
@@ -51,13 +60,16 @@
                         <td><span class="badge badge-{{ $pengajuan->status }}">
                                 {{ ucfirst($pengajuan->status) }}
                             </span></td>
-                        <td>{{ $data->bunga }}</td>
-                        <td>
+                        <td>{{ (float) $data->bunga }}%</td>
+                        <td style="display: flex; justify-content: center; align-items: center;">
+                            {{-- Cek apakah slip gaji ada --}}
                             @if (!empty($data->slip_gaji_path))
-                                <a href="{{ asset('storage/' . $data->slip_gaji_path) }}" target="_blank">Lihat</a>
+                                <a href="{{ asset('storage/' . $data->slip_gaji_path) }}" target="_blank"
+                                    style="text-decoration: none; border: 1px; padding: 3px; border-radius: 5px;
+                                    background-color: rgb(59, 84, 192); color: white; font-size: 14px;">Lihat</a>
                             @endif
                         </td>
-
+                        <td>Rp {{ number_format($angsuran, 0, ',', '.') }}</td>
                     </tr>
                 @endforeach
             </tbody>
