@@ -39,22 +39,30 @@
                     <th>Jumlah Angsuran</th>
                     <th>Ke-</th>
                     <th>Sisa Pembayaran</th>
+                    <th>Besar Pinjaman</th>
                     <th>Aksi</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach ($angsuranList as $index => $angsuran)
+                @foreach ($angsuranList->groupBy(fn($item) => $item->formulirPengajuan->user->username) as $nama => $list)
+                    @php
+                        $first = $list->first();
+                        $data = json_decode($first->formulirPengajuan->data_lengkap_json, true);
+                    @endphp
+
                     <tr>
-                        <td>{{ $index + 1 }}</td>
-                        <td>{{ $angsuran->formulirPengajuan->user->username ?? 'N/A' }}</td>
-                        <td>{{ $angsuran->tanggal }}</td>
-                        <td>Rp {{ number_format($angsuran->jumlah_bayar, 0, ',', '.') }}</td>
-                        <td>{{ $angsuran->angsuran_ke ?? '-' }}</td>
-                        <td>Rp {{ number_format($angsuran->sisa_pembayaran, 0, ',', '.') }}</td>
+                        <td rowspan="{{ count($list) }}">{{ $loop->iteration }}</td>
+                        <td rowspan="{{ count($list) }}">{{ $nama }}</td>
+                        <td>{{ Carbon\Carbon::parse($first->tanggal)->locale('id')->translatedFormat('d F Y') }}</td>
+                        <td>Rp {{ number_format($first->jumlah_bayar, 0, ',', '.') }}</td>
+                        <td>{{ $first->angsuran_ke ?? '-' }}</td>
+                        <td>Rp {{ number_format($first->sisa_pembayaran, 0, ',', '.') }}</td>
+                        <td rowspan="{{ count($list) }}">Rp {{ number_format($data['jumlah_pinjaman'], 0, ',', '.') }}
+                        </td>
                         <td>
-                            <button onclick="viewDetail({{ $angsuran->id }})">Lihat</button>
-                            <button onclick="editAngsuran({{ $angsuran->id }})">Ubah</button>
-                            <form action="{{ route('data-angsuran.destroy', $angsuran->id) }}" method="POST"
+                            <button onclick="viewDetail({{ $first->id }})">Lihat</button>
+                            <button onclick="editAngsuran({{ $first->id }})">Ubah</button>
+                            <form action="{{ route('data-angsuran.destroy', $first->id) }}" method="POST"
                                 style="display:inline;">
                                 @csrf
                                 @method('DELETE')
@@ -63,6 +71,27 @@
                             </form>
                         </td>
                     </tr>
+
+                    @foreach ($list->skip(1) as $angsuran)
+                        <tr>
+                            <td>{{ Carbon\Carbon::parse($angsuran->tanggal)->locale('id')->translatedFormat('d F Y') }}
+                            </td>
+                            <td>Rp {{ number_format($angsuran->jumlah_bayar, 0, ',', '.') }}</td>
+                            <td>{{ $angsuran->angsuran_ke ?? '-' }}</td>
+                            <td>Rp {{ number_format($angsuran->sisa_pembayaran, 0, ',', '.') }}</td>
+                            <td>
+                                <button onclick="viewDetail({{ $angsuran->id }})">Lihat</button>
+                                <button onclick="editAngsuran({{ $angsuran->id }})">Ubah</button>
+                                <form action="{{ route('data-angsuran.destroy', $angsuran->id) }}" method="POST"
+                                    style="display:inline;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit"
+                                        onclick="return confirm('Yakin ingin hapus data ini?')">Hapus</button>
+                                </form>
+                            </td>
+                        </tr>
+                    @endforeach
                 @endforeach
             </tbody>
         </table>

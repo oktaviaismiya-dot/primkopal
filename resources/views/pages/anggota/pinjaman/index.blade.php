@@ -22,12 +22,24 @@
                     <th>Keperluan</th>
                     <th>Bunga</th>
                     <th>Tenor</th>
+                    <th>Total Bunga</th>
+                    <th>Total Bayar</th>
+                    <th>Angsuran/Bulan</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($pinjaman as $index => $pinjam)
                     @php
                         $data = json_decode($pinjam->data_lengkap_json, true);
+
+                        $jumlah = $data['jumlah_pinjaman'];
+                        $bunga = (float) $data['bunga'] / 100;;
+                        $tenor = (int) $data['tenor'];
+
+                        $totalBunga = $jumlah * $bunga * $tenor;
+                        $totalBayar = $jumlah + $totalBunga;
+
+                        $angsuran = $totalBayar / $tenor;
                     @endphp
                     <tr>
                         <td>{{ $index + 1 }}</td>
@@ -38,8 +50,11 @@
                                 {{ ucfirst($pinjam->status) }}
                             </span></td>
                         <td>{{ $data['keperluan'] }}</td>
-                        <td>{{ $data['bunga'] }}</td>
-                        <td>{{ $data['tenor'] }}</td>
+                        <td>{{ (float) $data['bunga'] }}%</td>
+                        <td>{{ $data['tenor'] }} Bulan</td>
+                        <td>{{ number_format($totalBunga, 0, ',', '.') }}</td>
+                        <td>{{ number_format($totalBayar, 0, ',', '.') }}</td>
+                        <td>{{ number_format($angsuran, 0, ',', '.') }}</td>
                     </tr>
                 @endforeach
             </tbody>
