@@ -21,9 +21,9 @@
                         <option value="" selected disabled>-- Pilih Pangkat --</option>
                         @foreach ($pangkat as $pangkat)
                             <option value="{{ $pangkat->id }}">
-                                {{ $pangkat->nama }} - Maks Rp {{ number_format($pangkat->maksimal_pinjaman, 0, ',', '.') }}
+                                {{ $pangkat->nama }} 
                             </option>
-                        @endforeach
+                        @endforeach 
                     </select>
                 </div>
 
@@ -71,13 +71,12 @@
                 <li><strong>Tenor:</strong> 12 atau 24 bulan</li>
                 <li><strong>Maksimal Pinjaman:</strong>
                     <ul>
-                        <li>Tamtama: Rp10.000.000</li>
-                        <li>Bintara: Rp15.000.000</li>
-                        <li>Perwira: Rp20.000.000</li>
-                        <li>Letkol: Rp25.000.000</li>
+                        <li>Tamtama: Rp15.000.000</li>
+                        <li>Bintara: Rp20.000.000</li>
+                        <li>Perwira & PNS: Rp25.000.000</li>
                     </ul>
                 </li>
-                <li><strong>Slip Gaji:</strong> Wajib diunggah (PDF/JPG, maks 2MB)</li>
+                <li><strong>Slip Gaji:</strong> Wajib diunggah (PDF/JPG)</li>
                 <li><strong>Syarat:</strong> Pengajuan hanya bisa dilakukan 1x dalam 3 bulan</li>
             </ul>
         </div>

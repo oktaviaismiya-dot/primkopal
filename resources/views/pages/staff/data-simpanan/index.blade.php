@@ -74,7 +74,7 @@
                         <td>Rp {{ number_format($simpanan->jumlah, 0, ',', '.') }}</td>
                         <td>{{ $simpanan->jenisSimpanan->nama }}</td>
                         <td>
-                            <button onclick="openModal('viewModal{{ $simpanan->id }}')">Lihat</button>
+                            <button onclick="openModal('viewModal{{ $simpanan->id }}')">Lihat</button> 
                             <button onclick="openModal('editModal{{ $simpanan->id }}')">Ubah</button>
                             <form action="{{ route('data-simpanan.destroy', $simpanan->id) }}" method="POST"
                                 style="display:inline;">
@@ -96,7 +96,7 @@
                             <p><strong>Nominal:</strong> Rp {{ number_format($simpanan->jumlah, 0, ',', '.') }}</p>
                             <p><strong>Keterangan:</strong> {{ $simpanan->jenisSimpanan->nama }}</p>
                         </div>
-                    </div>
+                    </div> 
 
                     <!-- Modal Edit -->
                     <div class="modal" id="editModal{{ $simpanan->id }}">

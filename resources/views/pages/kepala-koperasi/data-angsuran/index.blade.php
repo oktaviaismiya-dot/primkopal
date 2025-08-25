@@ -8,12 +8,12 @@
         <h3>Data Angsuran</h3>
     </div>
 
-    <div class="table-wrapper">
+    <!-- <div class="table-wrapper">
         <div class="table-actions">
             <a href="{{ route('data.angsuran.export.kop') }}" class="btn-export">
                 Export Excel
             </a>
-        </div> 
+        </div> -->
 
         <table class="data-table">
             <thead>

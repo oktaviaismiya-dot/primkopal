@@ -96,10 +96,10 @@
                     <label for="jabatan">Pangkat</label>
                     <select id="jabatan" name="jabatan" required>
                         <option value="" selected disabled>Pilih pangkat</option>
-                        <option value="tamtama">Tamtama - Maks Rp 10.000.000</option>
-                        <option value="bintara">Bintara - Maks Rp 15.000.000</option>
-                        <option value="perwira">Perwira - Maks Rp 20.000.000</option>
-                        <option value="letkol">Letkol - Maks Rp 25.000.000</option>
+                        <option value="tamtama">Tamtama</option>
+                        <option value="bintara">Bintara</option>
+                        <option value="perwira">Perwira</option>
+                        <option value="letkol">PNS</option>
                     </select>
                 </div>
 
