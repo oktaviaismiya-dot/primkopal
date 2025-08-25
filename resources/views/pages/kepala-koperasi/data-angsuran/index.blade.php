@@ -21,20 +21,25 @@
                     <th>No</th>
                     <th>Nama</th>
                     <th>Tanggal Bayar</th>
-                    <th>Jumlah Angsuran</th>
+                    <th>Jumlah Pinjaman</th>
+                    <th>Sisa Pinjaman</th>
                     <th>Ke-</th>
-                    <th>Sisa Pembayaran</th>
+                    <th>Angsuran</th>
                 </tr>
             </thead>
             <tbody>
                 @forelse ($angsurans as $index => $angsuran)
+                    @php
+                        $data = json_decode($angsuran->formulirPengajuan->data_lengkap_json, true);
+                    @endphp
                     <tr>
                         <td>{{ $index + 1 }}</td>
                         <td>{{ $angsuran->formulirPengajuan->user->username ?? 'N/A' }}</td>
-                        <td>{{ \Carbon\Carbon::parse($angsuran->tanggal)->format('d-m-Y') }}</td>
-                        <td>Rp {{ number_format($angsuran->jumlah_bayar, 0, ',', '.') }}</td>
-                        <td>{{ $angsuran->angsuran_ke }}</td>
+                        <td>{{ \Carbon\Carbon::parse($angsuran->tanggal)->locale('id')->translatedFormat('d F Y') }}</td>
+                        <td>Rp {{ number_format($data['jumlah_pinjaman'], 0, ',', '.') }}</td>
                         <td>Rp {{ number_format($angsuran->sisa_pembayaran ?? 0, 0, ',', '.') }}</td>
+                        <td>{{ $angsuran->angsuran_ke }}</td>
+                        <td>Rp {{ number_format($angsuran->jumlah_bayar, 0, ',', '.') }}</td>
                     </tr>
                 @empty
                     <tr>
