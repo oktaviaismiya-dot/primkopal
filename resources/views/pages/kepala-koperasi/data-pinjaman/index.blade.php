@@ -25,22 +25,35 @@
                     <th>Keperluan</th>
                     <th>Bunga</th>
                     <th>Tenor</th>
+                    <th>Angsuran/Bulan</th>
+                    <th>Total Bayar</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($pinjamans as $index => $pinjam)
                     @php
                         $data = json_decode($pinjam->data_lengkap_json, true);
+
+                        $jumlah = $data['jumlah_pinjaman'];
+                        $bunga = (float) $data['bunga'] / 100;;
+                        $tenor = (int) $data['tenor'];
+                        $totalBunga = $jumlah * $bunga * $tenor;
+                        $totalBayar = $jumlah + $totalBunga;
+                        $angsuran = $totalBayar / $tenor;
                     @endphp
                     <tr>
                         <td>{{ $index + 1 }}</td>
                         <td>{{ $pinjam->user->username }}</td>
                         <td>{{ $pinjam->created_at_formatted }}</td>
                         <td>Rp {{ number_format($data['jumlah_pinjaman'], 0, ',', '.') }}</td>
-                        <td>{{ $pinjam->status }}</td>
+                        <td><span class="badge badge-{{ $pinjam->status }}">
+                                {{ ucfirst($pinjam->status) }}
+                            </span></td>
                         <td>{{ $data['keperluan'] }}</td>
-                        <td>{{ $data['bunga'] }}</td>
-                        <td>{{ $data['tenor'] }}</td>
+                        <td>{{ (float) $data['bunga'] }}%</td>
+                        <td>{{ $data['tenor'] }} bulan</td>
+                        <td>Rp {{ number_format($angsuran, 0, ',', '.') }}</td>
+                        <td>Rp {{ number_format($totalBayar, 0, ',', '.') }}</
                     </tr>
                 @endforeach
             </tbody>
@@ -48,6 +61,32 @@
     </div>
 
     <style>
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            text-transform: capitalize;
+        }
+
+        .badge-pending {
+            background-color: #ffc107;
+            /* kuning */
+            color: #000;
+        }
+
+        .badge-disetujui {
+            background-color: #28a745;
+            /* hijau */
+            color: #fff;
+        }
+
+        .badge-ditolak {
+            background-color: #dc3545;
+            /* merah */
+            color: #fff;
+        }
         .form-group {
             margin-bottom: 10px;
         }
