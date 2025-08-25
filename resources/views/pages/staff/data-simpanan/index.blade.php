@@ -51,7 +51,7 @@
             </form>
             <div style="display: flex; gap: 10px;">
                 <button class="btn-add" onclick="openModal('importModal')" style="background-color: green;">Import Excel</button>
-                <button class="btn-add" onclick="openModal('addModal')">+ Tambah</button>
+                <!-- <button class="btn-add" onclick="openModal('addModal')">+ Tambah</button> -->
             </div>
         </div>
         <table class="data-table">
@@ -181,7 +181,7 @@
         </div>
     </div>
 
-    <!-- Modal Tambah -->
+    <!-- Modal Tambah 
     <div class="modal" id="addModal">
         <div class="modal-content">
             <span class="close" onclick="closeModal('addModal')">&times;</span>
@@ -218,7 +218,7 @@
                             <option value="{{ $jenis->id }}">{{ $jenis->nama }}</option>
                         @endforeach
                     </select>
-                </div>
+                </div> 
 
                 <div style="text-align:center;">
                     <button type="submit"
@@ -228,7 +228,7 @@
                 </div>
             </form>
         </div>
-    </div>
+    </div> -->
 
     <style>
         .modal-content input,
