@@ -12,11 +12,11 @@ class AngsuranController extends Controller
 {
     public function index()
     {
-        $pengajuan = FormulirPengajuan::where('user_id', Auth::id())->first();
-        $angsurans = [];
+        $pengajuan = FormulirPengajuan::where('user_id', Auth::id())->get();
+        $angsurans = collect();
 
         if ($pengajuan) {
-            $angsurans = Angsuran::where('formulir_pengajuan_id', $pengajuan->id)
+            $angsurans = Angsuran::whereIn('formulir_pengajuan_id', $pengajuan->pluck('id'))
                 ->with('formulirPengajuan.user')
                 ->get();
         }

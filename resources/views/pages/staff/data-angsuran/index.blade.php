@@ -52,7 +52,13 @@
                         <td>{{ $index + 1 }}</td>
                         <td>{{ $angsuran->formulirPengajuan->user->username ?? 'N/A' }}</td>
                         <td>{{ Carbon\Carbon::parse($angsuran->tanggal)->locale('id')->translatedFormat('d F Y') }}</td>
-                        <td>Rp {{ number_format($data['jumlah_pinjaman'], 0, ',', '.') }}</td>
+                        <td>Rp {{ number_format($data['jumlah_pinjaman'], 0, ',', '.') }}
+                            <br>
+                            <small style="color:gray;">
+                                (Pengajuan:
+                                {{ \Carbon\Carbon::parse($angsuran->formulirPengajuan->created_at)->format('d-m-Y') }})
+                            </small>
+                        </td>
                         <td>Rp {{ number_format($angsuran->sisa_pembayaran, 0, ',', '.') }}</td>
                         <td>{{ $angsuran->angsuran_ke ?? '-' }}</td>
                         <td>Rp {{ number_format($angsuran->jumlah_bayar, 0, ',', '.') }}</td>
@@ -78,7 +84,11 @@
                 <label>Nama</label>
                 <select name="formulir_pengajuan_id" required>
                     @foreach ($formulirs as $p)
-                        <option value="{{ $p->id }}">{{ $p->user->username ?? 'N/A' }}</option>
+                        @php
+                            $data = json_decode($p->data_lengkap_json, true);
+                        @endphp
+                        <option value="{{ $p->id }}">{{ $p->user->username ?? 'N/A' }} - Pinjaman : Rp.
+                            {{ number_format($data['jumlah_pinjaman'], 0, ',', '.') }}</option>
                     @endforeach
                 </select>
 

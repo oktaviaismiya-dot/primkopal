@@ -30,7 +30,7 @@
                     <tr>
                         <td>{{ $index + 1 }}</td>
                         <td>{{ $angsuran->formulirPengajuan->user->username ?? 'N/A' }}</td>
-                        <td>{{ \Carbon\Carbon::parse($angsuran->tanggal)->format('d-m-Y') }}</td>
+                        <td>{{ \Carbon\Carbon::parse($angsuran->tanggal)->locale('id')->translatedFormat('d F Y') }}</td>
                         <td>Rp {{ number_format($angsuran->jumlah_bayar, 0, ',', '.') }}</td>
                         <td>{{ $angsuran->angsuran_ke }}</td>
                         <td>Rp {{ number_format($angsuran->sisa_pembayaran ?? 0, 0, ',', '.') }}</td>
