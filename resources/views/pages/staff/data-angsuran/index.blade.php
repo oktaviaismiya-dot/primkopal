@@ -62,8 +62,7 @@
                         <td>Rp {{ number_format($angsuran->sisa_pembayaran, 0, ',', '.') }}</td>
                         <td>{{ $angsuran->angsuran_ke ?? '-' }}</td>
                         <td>Rp {{ number_format($angsuran->jumlah_bayar, 0, ',', '.') }}</td>
-                        <td> <button onclick="viewDetail({{ $angsuran->id }})">Lihat</button> <button
-                                onclick="editAngsuran({{ $angsuran->id }})">Ubah</button>
+                        <td> <button  onclick="editAngsuran({{ $angsuran->id }})">Ubah</button> 
                             <form action="{{ route('data-angsuran.destroy', $angsuran->id) }}" method="POST"
                                 style="display:inline;"> @csrf @method('DELETE') <button type="submit"
                                     onclick="return confirm('Yakin ingin hapus data ini?')">Hapus</button> </form>
