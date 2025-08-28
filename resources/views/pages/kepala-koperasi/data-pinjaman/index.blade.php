@@ -7,12 +7,16 @@
         <h3>Data Pinjaman</h3>
     </div>
 
-    <!-- <div class="table-wrapper">
-        <div class="table-actions">
-            <a href="{{ route('data.pinjaman.export.kop') }}" class="btn-export">
+    <div class="table-wrapper">
+        <div class="table-actions" style="display: flex; justify-content: flex-start;">
+            {{-- <a href="{{ route('data.pinjaman.export.kop') }}" class="btn-export">
                 Export Excel
-            </a>
-        </div> -->
+            </a> --}}
+            {{-- Form untuk filter nama --}}
+            <form action="{{ route('data.pinjaman.kop') }}">
+                <input type="text" name="username" placeholder="Cari nama" value="{{ request('username') }}" onchange="this.form.submit()">
+            </form>
+        </div>
 
         <table class="data-table">
             <thead>

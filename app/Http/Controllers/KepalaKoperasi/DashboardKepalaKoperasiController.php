@@ -32,9 +32,17 @@ class DashboardKepalaKoperasiController extends Controller
         return redirect()->back()->with('success', 'Pengajuan berhasil' . $status . '.');
     }
 
-    public function indexPinjaman()
+    public function indexPinjaman(Request $request)
     {
-        $pinjamans = FormulirPengajuan::all();
+        // Filter berdasarkan nama anggota jika ada parameter pencarian
+        $pinjamans = FormulirPengajuan::with('user')
+            ->when($request->input('username'), function ($query, $nama) {
+                return $query->whereHas('user', function ($q) use ($nama) {
+                    $q->where('username', 'like', '%' . $nama . '%');
+                });
+            })
+            ->get();
+        // $pinjamans = FormulirPengajuan::all();
         return view('pages.kepala-koperasi.data-pinjaman.index', compact('pinjamans'));
     }
 
