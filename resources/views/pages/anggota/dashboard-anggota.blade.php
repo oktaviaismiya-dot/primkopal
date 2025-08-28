@@ -6,21 +6,31 @@
     <h3>Selamat Datang, {{ Auth::user()->username }}</h3>
 
     <div class="cards">
-        <div class="card">
+        {{-- <div class="card">
             <div class="card-title">
                 <i class="ph ph-file-text"></i>
                 <p>Slip Gaji Terbaru</p>
             </div>
             <span>Belum Diupload</span>
             <small class="trend down">Diperlukan untuk pengajuan</small>
-        </div>
+        </div> --}}
 
         <div class="card">
             <div class="card-title">
                 <i class="ph ph-file-plus"></i>
                 <p>Form Pengajuan</p>
             </div>
-            <span>Status: Belum Diajukan</span> <br>
+            Status :
+            <span class="status @if ($pengajuans->status === 'pending')
+                    status-pending
+                @elseif($pengajuans->status === 'disetujui')
+                    status-approved
+                @elseif($pengajuans->status === 'ditolak')
+                    status-rejected
+                @else
+                    status-default
+                    @endif">
+                    {{ ucfirst($pengajuans->status) }}</span> <br>
             <small class="trend neutral">Isi form untuk memulai</small>
         </div>
     </div>
@@ -57,6 +67,7 @@
             gap: 16px;
             margin-bottom: 24px;
             flex-wrap: wrap;
+            justify-content: flex-start
         }
 
         .card {
@@ -64,7 +75,8 @@
             border-radius: 12px;
             padding: 20px;
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-            flex: 1 1 250px;
+            flex: 0 1 250px;
+            max-width: 100%;
         }
 
         .card-title {
@@ -94,6 +106,38 @@
             padding: 10px 20px;
             border-radius: 8px;
             cursor: pointer;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .status-pending {
+            color: #b7791f;
+            border: 2px solid #f6ad55;
+            background-color: #fefcbf;
+        }
+
+        .status-approved {
+            color: #2f855a;
+            border: 2px solid #48bb78;
+            background-color: #c6f6d5;
+        }
+
+        .status-rejected {
+            color: #c53030;
+            border: 2px solid #f56565;
+            background-color: #fed7d7;
+        }
+
+        .status-default {
+            color: #4a5568;
+            border: 2px solid #a0aec0;
+            background-color: #edf2f7;
         }
     </style>
 @endsection
