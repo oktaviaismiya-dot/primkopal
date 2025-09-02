@@ -20,18 +20,21 @@
                 <i class="ph ph-file-plus"></i>
                 <p>Form Pengajuan</p>
             </div>
-            Status :
-            <span class="status @if ($pengajuans->status === 'pending')
-                    status-pending
+            @if ($pengajuans)
+                Status :
+                <span
+                    class="status @if ($pengajuans->status === 'pending') status-pending
                 @elseif($pengajuans->status === 'disetujui')
                     status-approved
                 @elseif($pengajuans->status === 'ditolak')
                     status-rejected
                 @else
-                    status-default
-                    @endif">
-                    {{ ucfirst($pengajuans->status) }}</span> <br>
-            <small class="trend neutral">Isi form untuk memulai</small>
+                    status-default @endif">
+                    {{ ucfirst($pengajuans->status) }}</span>
+            @else
+                <span>Belum ada pengajuan</span> <br>
+                <small class="trend neutral">Isi form untuk memulai</small>
+            @endif
         </div>
     </div>
 

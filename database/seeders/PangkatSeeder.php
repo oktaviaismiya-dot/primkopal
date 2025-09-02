@@ -14,10 +14,10 @@ class PangkatSeeder extends Seeder
     public function run(): void
     {
         DB::table('pangkats')->insert([
-            ['nama' => 'Tamtama', 'maksimal_pinjaman' => 10000000],
-            ['nama' => 'Bintara', 'maksimal_pinjaman' => 15000000],
-            ['nama' => 'Perwira', 'maksimal_pinjaman' => 20000000],
-            ['nama' => 'Letkol', 'maksimal_pinjaman' => 25000000],
+            ['nama' => 'Tamtama', 'maksimal_pinjaman' => 10000000, 'created_at' => now(), 'updated_at' => now()],
+            ['nama' => 'Bintara', 'maksimal_pinjaman' => 15000000, 'created_at' => now(), 'updated_at' => now()],
+            ['nama' => 'Perwira', 'maksimal_pinjaman' => 20000000, 'created_at' => now(), 'updated_at' => now()],
+            ['nama' => 'Letkol', 'maksimal_pinjaman' => 25000000, 'created_at' => now(), 'updated_at' => now()],
         ]);
     }
 }

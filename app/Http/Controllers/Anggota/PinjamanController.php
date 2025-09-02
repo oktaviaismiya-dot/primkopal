@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 class PinjamanController extends Controller
 {
     public function index() {
-        $pinjaman = FormulirPengajuan::where('user_id', Auth::id())->get();
+        $pinjaman = FormulirPengajuan::where('user_id', Auth::id())->paginate(10);
         return view('pages.anggota.pinjaman.index', compact('pinjaman'));
     }
 }

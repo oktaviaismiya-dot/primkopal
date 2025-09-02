@@ -62,7 +62,7 @@
                         <td>Rp {{ number_format($angsuran->sisa_pembayaran, 0, ',', '.') }}</td>
                         <td>{{ $angsuran->angsuran_ke ?? '-' }}</td>
                         <td>Rp {{ number_format($angsuran->jumlah_bayar, 0, ',', '.') }}</td>
-                        <td> <button  onclick="editAngsuran({{ $angsuran->id }})">Ubah</button> 
+                        <td> <button onclick="editAngsuran({{ $angsuran->id }})">Ubah</button>
                             <form action="{{ route('data-angsuran.destroy', $angsuran->id) }}" method="POST"
                                 style="display:inline;"> @csrf @method('DELETE') <button type="submit"
                                     onclick="return confirm('Yakin ingin hapus data ini?')">Hapus</button> </form>
@@ -71,6 +71,32 @@
                 @endforeach
             </tbody>
         </table>
+        <div class="pagination-wrapper">
+            <ul class="pagination">
+                {{-- Tombol Previous --}}
+                @if ($angsuranList->onFirstPage())
+                    <li class="disabled"><span>Previous</span></li>
+                @else
+                    <li><a href="{{ $angsuranList->previousPageUrl() }}">Previous</a></li>
+                @endif
+
+                {{-- Nomor halaman --}}
+                @foreach ($angsuranList->getUrlRange(1, $angsuranList->lastPage()) as $page => $url)
+                    @if ($page == $angsuranList->currentPage())
+                        <li class="active"><span>{{ $page }}</span></li>
+                    @else
+                        <li><a href="{{ $url }}">{{ $page }}</a></li>
+                    @endif
+                @endforeach
+
+                {{-- Tombol Next --}}
+                @if ($angsuranList->hasMorePages())
+                    <li><a href="{{ $angsuranList->nextPageUrl() }}">Next</a></li>
+                @else
+                    <li class="disabled"><span>Next</span></li>
+                @endif
+            </ul>
+        </div>
     </div>
 
     <!-- Tambah Modal -->
@@ -288,6 +314,51 @@
 
         .close:hover {
             color: #000;
+        }
+        .pagination-wrapper {
+            margin-top: 20px;
+            display: flex;
+            justify-content: end;
+        }
+
+        .pagination {
+            list-style: none;
+            display: flex;
+            gap: 5px;
+            padding: 0;
+        }
+
+        .pagination li {
+            display: inline-block;
+        }
+
+        .pagination a,
+        .pagination span {
+            display: block;
+            padding: 6px 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            text-decoration: none;
+            color: #007bff;
+            transition: background 0.2s;
+        }
+
+        .pagination a:hover {
+            background: #007bff;
+            color: #fff;
+        }
+
+        .pagination .active span {
+            background: #007bff;
+            color: #fff;
+            font-weight: bold;
+            cursor: default;
+        }
+
+        .pagination .disabled span {
+            color: #aaa;
+            border-color: #ddd;
+            cursor: not-allowed;
         }
     </style>
 

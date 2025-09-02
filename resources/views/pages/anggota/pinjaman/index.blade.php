@@ -59,6 +59,32 @@
                 @endforeach
             </tbody>
         </table>
+        <div class="pagination-wrapper">
+            <ul class="pagination">
+                {{-- Tombol Previous --}}
+                @if ($pinjaman->onFirstPage())
+                    <li class="disabled"><span>Previous</span></li>
+                @else
+                    <li><a href="{{ $pinjaman->previousPageUrl() }}">Previous</a></li>
+                @endif
+
+                {{-- Nomor halaman --}}
+                @foreach ($pinjaman->getUrlRange(1, $pinjaman->lastPage()) as $page => $url)
+                    @if ($page == $pinjaman->currentPage())
+                        <li class="active"><span>{{ $page }}</span></li>
+                    @else
+                        <li><a href="{{ $url }}">{{ $page }}</a></li>
+                    @endif
+                @endforeach
+
+                {{-- Tombol Next --}}
+                @if ($pinjaman->hasMorePages())
+                    <li><a href="{{ $pinjaman->nextPageUrl() }}">Next</a></li>
+                @else
+                    <li class="disabled"><span>Next</span></li>
+                @endif
+            </ul>
+        </div>
     </div>
 
     <style>
@@ -169,6 +195,52 @@
             background-color: #dc3545;
             /* merah */
             color: #fff;
+        }
+
+         .pagination-wrapper {
+            margin-top: 20px;
+            display: flex;
+            justify-content: end;
+        }
+
+        .pagination {
+            list-style: none;
+            display: flex;
+            gap: 5px;
+            padding: 0;
+        }
+
+        .pagination li {
+            display: inline-block;
+        }
+
+        .pagination a,
+        .pagination span {
+            display: block;
+            padding: 6px 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            text-decoration: none;
+            color: #007bff;
+            transition: background 0.2s;
+        }
+
+        .pagination a:hover {
+            background: #007bff;
+            color: #fff;
+        }
+
+        .pagination .active span {
+            background: #007bff;
+            color: #fff;
+            font-weight: bold;
+            cursor: default;
+        }
+
+        .pagination .disabled span {
+            color: #aaa;
+            border-color: #ddd;
+            cursor: not-allowed;
         }
     </style>
 @endsection

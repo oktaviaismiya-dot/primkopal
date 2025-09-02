@@ -124,14 +124,14 @@
                 <input type="password" name="password">
 
                 <label>Role</label>
-                <select name="role_id" required>
+                <select name="role_id" required style="width: 100%; padding: 0.5rem; border-radius: 0.25rem; border: 1px solid #ccc;">
                     @foreach ($roles as $role)
                         <option value="{{ $role->id }}">{{ $role->nama }}</option>
                     @endforeach
                 </select>
 
                 <label>Pangkat</label>
-                <select name="pangkat_id" required>
+                <select name="pangkat_id" required style="width: 100%; padding: 0.5rem; border-radius: 0.25rem; border: 1px solid #ccc;">
                     @foreach ($pangkats as $pangkat)
                         <option value="{{ $pangkat->id }}">{{ $pangkat->nama }}</option>
                     @endforeach

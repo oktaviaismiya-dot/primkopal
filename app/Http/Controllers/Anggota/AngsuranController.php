@@ -18,7 +18,7 @@ class AngsuranController extends Controller
         if ($pengajuan) {
             $angsurans = Angsuran::whereIn('formulir_pengajuan_id', $pengajuan->pluck('id'))
                 ->with('formulirPengajuan.user')
-                ->get();
+                ->paginate(10);
         }
 
         return view('pages.anggota.angsuran.index', compact('angsurans'));

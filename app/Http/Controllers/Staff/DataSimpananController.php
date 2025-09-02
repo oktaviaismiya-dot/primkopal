@@ -28,16 +28,20 @@ class DataSimpananController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'user_id' => 'required|exists:users,id',
-            'tanggal' => 'required|date',
-            'jumlah' => 'required|numeric',
-            'jenis_simpanan_id' => 'required|exists:jenis_simpanans,id',
-        ]);
+        try {
+            $request->validate([
+                'user_id' => 'required|exists:users,id',
+                'tanggal' => 'required|date',
+                'jumlah' => 'required|numeric',
+                'jenis_simpanan_id' => 'required|exists:jenis_simpanans,id',
+            ]);
 
-        Simpanan::create($request->all());
+            Simpanan::create($request->all());
 
-        return redirect()->back()->with('success', 'Data simpanan berhasil ditambahkan');
+            return redirect()->back()->with('success', 'Data simpanan berhasil ditambahkan');
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $th->getMessage());
+        }
     }
 
     public function show($id)

@@ -21,6 +21,29 @@
         </main>
     </div>
 
+     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            @if (session('success'))
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil',
+                    text: '{{ session('success') }}',
+                    confirmButtonText: 'OK',
+                });
+            @endif
+
+            @if (session('error'))
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal',
+                    text: '{{ session('error') }}',
+                    confirmButtonText: 'OK',
+                });
+            @endif
+        });
+    </script>
+
     <script>
     const profileIcon = document.getElementById('profileIcon');
     const profileContainer = document.querySelector('.profile-container');

@@ -16,46 +16,56 @@ class DataAngsuranController extends Controller
     {
         $formulirs = FormulirPengajuan::with('user')->get();
         $angsuranList = Angsuran::with('formulirPengajuan.user')
-        ->when($request->month, function($query) use ($request) {
-            return $query->whereMonth('tanggal', $request->month);
-        })
-        ->get();
+            ->when($request->month, function ($query) use ($request) {
+                return $query->whereMonth('tanggal', $request->month);
+            })
+            ->paginate(10);
 
         return view('pages.staff.data-angsuran.index', compact('angsuranList', 'formulirs'));
     }
 
     public function store(Request $request)
     {
-        $request->validate([
-            'formulir_pengajuan_id' => 'required|exists:formulir_pengajuans,id',
-            'tanggal' => 'required|date',
-            'jumlah_bayar' => 'required|numeric|min:0',
-            'angsuran_ke' => 'required|integer|min:0',
-        ]);
+        try {
+            $request->validate([
+                'formulir_pengajuan_id' => 'required|exists:formulir_pengajuans,id',
+                'tanggal' => 'required|date',
+                'jumlah_bayar' => 'required|numeric|min:0',
+                'angsuran_ke' => 'required|integer|min:0',
+            ]);
 
-        $pengajuan = FormulirPengajuan::find($request->formulir_pengajuan_id);
+            $pengajuan = FormulirPengajuan::find($request->formulir_pengajuan_id);
 
-        if (!$pengajuan) {
-            return back()->with('error', 'Anda belum memiliki pengajuan pinjaman');
+            if (!$pengajuan) {
+                return back()->with('error', 'Anda belum memiliki pengajuan pinjaman');
+            }
+
+            $dataPinjaman = json_decode($pengajuan->data_lengkap_json, true);
+
+            $jumlah = (int) str_replace(['.', ','], '', $dataPinjaman['jumlah_pinjaman']);
+            $bunga = (float) $dataPinjaman['bunga'] / 100;
+            $tenor = (int) $dataPinjaman['tenor'];
+
+            // hitung total yg harus dibayar (pokok + bunga flat)
+            $totalBayar = $jumlah + ($jumlah * $bunga * $tenor);
+
+            $totalSudahDibayar = Angsuran::where('formulir_pengajuan_id', $pengajuan->id)
+                ->sum('jumlah_bayar');
+
+            $sisaPembayaran = $totalBayar - ($totalSudahDibayar + $request->jumlah_bayar);
+
+            Angsuran::create([
+                'formulir_pengajuan_id' => $request->formulir_pengajuan_id,
+                'tanggal' => $request->tanggal,
+                'jumlah_bayar' => $request->jumlah_bayar,
+                'angsuran_ke' => $request->angsuran_ke,
+                'sisa_pembayaran' => $sisaPembayaran,
+            ]);
+
+            return redirect()->back()->with('success', 'Angsuran berhasil ditambahkan.');
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $th->getMessage());
         }
-
-        $dataPinjaman = json_decode($pengajuan->data_lengkap_json, true);
-        $jumlahPinjaman = (int) str_replace(['.', ','], '', $dataPinjaman['jumlah_pinjaman']);
-
-        $totalSudahDibayar = Angsuran::where('formulir_pengajuan_id', $pengajuan->id)
-            ->sum('jumlah_bayar');
-
-        $sisaPembayaran = $jumlahPinjaman - ($totalSudahDibayar + $request->jumlah_bayar);
-
-        Angsuran::create([
-            'formulir_pengajuan_id' => $request->formulir_pengajuan_id,
-            'tanggal' => $request->tanggal,
-            'jumlah_bayar' => $request->jumlah_bayar,
-            'angsuran_ke' => $request->angsuran_ke,
-            'sisa_pembayaran' => $sisaPembayaran,
-        ]);
-
-        return redirect()->back()->with('success', 'Angsuran berhasil ditambahkan.');
     }
 
     public function show($id)

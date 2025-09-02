@@ -13,50 +13,53 @@ class DataPinjamanController extends Controller
 {
     public function index(Request $request)
     {
-        $pengajuans = FormulirPengajuan::with('user')->when($request->month, function($query) use ($request) {
+        $pengajuans = FormulirPengajuan::with('user')->when($request->month, function ($query) use ($request) {
             return $query->whereMonth('created_at', $request->month);
         })
-        ->latest()
-        ->paginate(10);
+            ->latest()
+            ->paginate(10);
         $users = User::all();
         return view('pages.staff.data-pinjaman.index', compact('pengajuans', 'users'));
     }
 
     public function store(Request $request)
     {
-        // Validasi form
-        $request->validate([
-            'user_id' => 'required|exists:users,id', // tambahan validasi user yang dipilih
-            'jabatan' => 'required|string',
-            'slip_gaji' => 'required|file|mimes:pdf,jpg,jpeg,png|max:2048',
-            'jumlah_pinjaman' => 'required|numeric|min:1000000',
-            'tenor' => 'required|in:12,24',
-            'keperluan' => 'required|string|max:255',
-            'bunga' => 'required|numeric',
-        ]);
+        try {
+            // Validasi form
+            $request->validate([
+                'user_id' => 'required|exists:users,id', // tambahan validasi user yang dipilih
+                'jabatan' => 'required|string',
+                'slip_gaji' => 'required|file|mimes:pdf,jpg,jpeg,png|max:2048',
+                'jumlah_pinjaman' => 'required|numeric|min:1000000',
+                'tenor' => 'required|in:12,24',
+                'keperluan' => 'required|string|max:255',
+                'bunga' => 'required|numeric',
+            ]);
 
-        // Upload slip gaji
-        $slipPath = $request->file('slip_gaji')->store('slip_gaji', 'public');
+            // Upload slip gaji
+            $slipPath = $request->file('slip_gaji')->store('slip_gaji', 'public');
 
-        // Simpan semua data dalam bentuk JSON
-        $dataLengkap = [
-            'jabatan' => $request->jabatan,
-            'slip_gaji_path' => $slipPath,
-            'jumlah_pinjaman' => $request->jumlah_pinjaman,
-            'tenor' => $request->tenor,
-            'keperluan' => $request->keperluan,
-            'bunga' => $request->bunga,
-        ];
+            // Simpan semua data dalam bentuk JSON
+            $dataLengkap = [
+                'jabatan' => $request->jabatan,
+                'slip_gaji_path' => $slipPath,
+                'jumlah_pinjaman' => $request->jumlah_pinjaman,
+                'tenor' => $request->tenor,
+                'keperluan' => $request->keperluan,
+                'bunga' => $request->bunga,
+            ];
 
-        // Simpan ke database
-        FormulirPengajuan::create([
-            'user_id' => $request->user_id, // pakai data dari input, bukan Auth::id()
-            'data_lengkap_json' => json_encode($dataLengkap),
-            'status' => 'pending',
-        ]);
+            // Simpan ke database
+            FormulirPengajuan::create([
+                'user_id' => $request->user_id, // pakai data dari input, bukan Auth::id()
+                'data_lengkap_json' => json_encode($dataLengkap),
+                'status' => 'pending',
+            ]);
 
-
-        return redirect()->back()->with('success', 'Data pinjaman berhasil ditambahkan.');
+            return redirect()->back()->with('success', 'Data pinjaman berhasil ditambahkan.');
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $th->getMessage());
+        }
     }
 
     public function show($id)
