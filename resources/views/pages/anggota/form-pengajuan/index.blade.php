@@ -77,7 +77,7 @@
                     </ul>
                 </li>
                 <li><strong>Slip Gaji:</strong> Wajib diunggah (PDF/JPG)</li>
-                <li><strong>Syarat:</strong> Pengajuan hanya bisa dilakukan 1x dalam 3 bulan</li>
+                <li><strong>Syarat:</strong> Pengajuan hanya bisa dilakukan 1x dalam 6 bulan</li>
             </ul>
         </div>
     </div>
